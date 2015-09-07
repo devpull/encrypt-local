@@ -12,7 +12,7 @@ log "+++ Session start"
 # encrypt files list
 cd ${ARCH_DIR}
 ARCH_LST=$(find -iregex ".*\.\(zip\|tar\.gz\)")
-echo $'Found archives:\n'"$ARCH_LST"
+log $'Found archives:\n'"$ARCH_LST"
 
 # checking directory with archives
 if [[ -z ${ARCH_LST// } ]]; then
@@ -23,7 +23,7 @@ fi
 # iterating
 for ARCH in ${ARCH_LST}; do
 
-    echo "arch $ARCH"
+    log "arch $ARCH"
 
     MD5FULL=$(md5sum ${ARCH})
     MD5=(${MD5FULL})
@@ -36,14 +36,14 @@ for ARCH in ${ARCH_LST}; do
 
     # get filename
     FILE_NAME=$(basename ${ARCH})
-    echo "filename: ${FILE_NAME}"
+    log "filename: ${FILE_NAME}"
 
     # get file destination path in enc folders mirror
     DEST_FILE=$(echo ${ARCH} | sed -e 's/\.\///')
-    echo "dest file: $DEST_FILE"
+    log "dest file: $DEST_FILE"
 
     DEST_FILE_FULL_PATH=$(dirname ${ENCR_DIR}/${DEST_FILE})
-    echo "fullpath: $DEST_FILE_FULL_PATH"
+    log "fullpath: $DEST_FILE_FULL_PATH"
 
     if [[ ! -d ${DEST_FILE_FULL_PATH} ]]; then
         mkdir -p ${DEST_FILE_FULL_PATH}
@@ -53,7 +53,7 @@ for ARCH in ${ARCH_LST}; do
     log "Starting to enc ${ARCH_DIR}/${FILE_NAME} to ${ENCR_DIR}/${FILE_NAME}.enc"
     # 1. gen key for archive
     openssl rand -base64 32 -out ${FILE_NAME}.key
-    echo "key: ${WORK_PATH}/${FILE_NAME}.key"
+    log "key: ${WORK_PATH}/${FILE_NAME}.key"
     # 2. enc archive with key
     openssl enc -aes-256-cbc -salt -in "${ARCH_DIR}/${DEST_FILE}" -out "${ENCR_DIR}/${DEST_FILE}.enc" -pass file:${FILE_NAME}.key
     # 3. enc key for that archive
