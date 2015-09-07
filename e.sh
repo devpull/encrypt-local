@@ -1,10 +1,11 @@
 #! /bin/bash
 
 # inc
-. ./log.sh
 # ARCH_DIR=""
 # ENCR_DIR=""
 . ./conf.sh
+. ./log.sh
+. ./reg.sh
 
 log "+++ Session start"
 
@@ -23,18 +24,30 @@ fi
 for ARCH in ${ARCH_LST}; do
 
     echo "arch $ARCH"
+
+    MD5FULL=$(md5sum ${ARCH})
+    MD5=(${MD5FULL})
+    log "<--md5: $MD5"
+    log "<--reg_file: $REG_FILE"
+    if grep "${MD5}" "${REG_FILE}";then
+        log "Already enc'ted $ARCH md5sum: $MD5 Continuing."
+        continue
+    fi
+
     # get filename
     FILE_NAME=$(basename ${ARCH})
     echo "filename: ${FILE_NAME}"
+
     # get file destination path in enc folders mirror
     DEST_FILE=$(echo ${ARCH} | sed -e 's/\.\///')
     echo "dest file: $DEST_FILE"
 
     DEST_FILE_FULL_PATH=$(dirname ${ENCR_DIR}/${DEST_FILE})
-    echo ""
     echo "fullpath: $DEST_FILE_FULL_PATH"
-    echo ""
-    mkdir -p ${DEST_FILE_FULL_PATH}
+
+    if [[ ! -d ${DEST_FILE_FULL_PATH} ]]; then
+        mkdir -p ${DEST_FILE_FULL_PATH}
+    fi
 
     # enc
     log "Starting to enc ${ARCH_DIR}/${FILE_NAME} to ${ENCR_DIR}/${FILE_NAME}.enc"
@@ -49,6 +62,10 @@ for ARCH in ${ARCH_LST}; do
     rm -f ${FILE_NAME}.key
 
     log "${ARCH} to ${ARCH_DIR}/${FILE_NAME} to ${ENCR_DIR}/${FILE_NAME}.enc encted successfuly."
+
+    # register
+    log "--^Registering $MD5FULL"
+    reg "$MD5FULL"
 
 done
 

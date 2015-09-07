@@ -12,6 +12,10 @@ exec 1>>${FILE_DATE}.log 2>&1
 
 function log() {
 
+    if [[ ! -d "${WORK_PATH}/log" ]]; then
+        mkdir -p ${WORK_PATH}/log
+    fi
+
     DATE=$(date +%d%m%Y)
     DTIME=$(date +%d.%m.%Y[%H:%M])
 
