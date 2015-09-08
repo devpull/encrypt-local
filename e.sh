@@ -33,6 +33,7 @@ fi
 for ARCH in ${ARCH_LST}; do
 
     log "arch $ARCH"
+    log "Calc md5sum...wait..."
 
     MD5FULL=$(md5sum ${ARCH})
     MD5=(${MD5FULL})
