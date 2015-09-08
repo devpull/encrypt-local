@@ -1,2 +1,2 @@
-e.win.example.bat eol=lf crlf=input
-silent.win.example.vbs eol-lf crlf=input
+e.win.example.bat eol=crlf
+silent.win.example.vbs eol=crlf
