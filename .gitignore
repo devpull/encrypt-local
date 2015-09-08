@@ -1,5 +1,6 @@
 .idea
 log
+reg
 conf.sh
 e.win.bat
 silent.win.vbs
