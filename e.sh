@@ -8,12 +8,16 @@
 
 
 log "+++ Session start"
+echo "======================"
 log "Source path: ${ARCH_DIR}"
 log "Enc path: ${ENCR_DIR}"
+log "Work path: ${WORK_PATH}"
+echo "======================"
 
 
 # encrypt files list
 cd ${ARCH_DIR}
+log "PWD: `pwd`"
 ARCH_LST=$(find -iregex ".*\.\(zip\|tar\.gz\)")
 log $'Found archives:\n'"$ARCH_LST"
 
@@ -57,14 +61,14 @@ for ARCH in ${ARCH_LST}; do
     # enc
     log "Starting to enc ${ARCH_DIR}/${FILE_NAME} to ${ENCR_DIR}/${FILE_NAME}.enc"
     # 1. gen key for archive
-    openssl rand -base64 32 -out ${FILE_NAME}.key
-    log "key: ${WORK_PATH}/${FILE_NAME}.key"
+    KEY_PATH=./${FILE_NAME}.key
+    openssl rand -base64 32 -out ${KEY_PATH}
     # 2. enc archive with key
-    openssl enc -aes-256-cbc -salt -in "${ARCH_DIR}/${DEST_FILE}" -out "${ENCR_DIR}/${DEST_FILE}.enc" -pass file:${FILE_NAME}.key
+    openssl enc -aes-256-cbc -salt -in "${ARCH_DIR}/${DEST_FILE}" -out "${ENCR_DIR}/${DEST_FILE}.enc" -pass file:${KEY_PATH}
     # 3. enc key for that archive
-    openssl rsautl -encrypt -inkey ${WORK_PATH}/public.pem -pubin -in "${FILE_NAME}.key" -out "${DEST_FILE_FULL_PATH}/${FILE_NAME}.key.enc"
+    openssl rsautl -encrypt -inkey ${WORK_PATH}/public.pem -pubin -in ${KEY_PATH} -out "${DEST_FILE_FULL_PATH}/${FILE_NAME}.key.enc"
     # 4. removinng unenc'ted key
-    rm -f ${FILE_NAME}.key
+    rm -f ${WORK_PATH}/${FILE_NAME}.key
 
     log "${ARCH} to ${ARCH_DIR}/${FILE_NAME} to ${ENCR_DIR}/${FILE_NAME}.enc encted successfuly."
 
