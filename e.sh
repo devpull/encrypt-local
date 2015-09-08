@@ -1,5 +1,4 @@
 #! /bin/bash
-
 # inc
 # ARCH_DIR=""
 # ENCR_DIR=""
@@ -7,18 +6,24 @@
 . ./log.sh
 . ./reg.sh
 
+
 log "+++ Session start"
+log "Source path: ${ARCH_DIR}"
+log "Enc path: ${ENCR_DIR}"
+
 
 # encrypt files list
 cd ${ARCH_DIR}
 ARCH_LST=$(find -iregex ".*\.\(zip\|tar\.gz\)")
 log $'Found archives:\n'"$ARCH_LST"
 
+
 # checking directory with archives
 if [[ -z ${ARCH_LST// } ]]; then
     log "No files to encrypt"
     exit 0
 fi
+
 
 # iterating
 for ARCH in ${ARCH_LST}; do
@@ -68,5 +73,6 @@ for ARCH in ${ARCH_LST}; do
     reg "$MD5FULL"
 
 done
+
 
 log "--- Ending session."
