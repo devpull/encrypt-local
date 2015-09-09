@@ -71,7 +71,7 @@ for ARCH in ${ARCH_LST}; do
     # 4. removinng unenc'ted key
     rm -f ${KEY_PATH}
 
-    log "${ARCH} to ${ARCH_DIR}/${FILE_NAME} to ${ENCR_DIR}/${FILE_NAME}.enc encted successfuly."
+    log "${ARCH} from ${ARCH_DIR}/${FILE_NAME} to ${ENCR_DIR}/${FILE_NAME}.enc encted successfuly."
 
     # register
     log "--^Registering $MD5FULL"
