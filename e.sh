@@ -69,7 +69,7 @@ for ARCH in ${ARCH_LST}; do
     # 3. enc key for that archive
     openssl rsautl -encrypt -inkey ${WORK_PATH}/public.pem -pubin -in ${KEY_PATH} -out "${DEST_FILE_FULL_PATH}/${FILE_NAME}.key.enc"
     # 4. removinng unenc'ted key
-    rm -f ${KEY_PATH}.key
+    rm -f ${KEY_PATH}
 
     log "${ARCH} to ${ARCH_DIR}/${FILE_NAME} to ${ENCR_DIR}/${FILE_NAME}.enc encted successfuly."
 
