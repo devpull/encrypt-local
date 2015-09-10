@@ -18,7 +18,7 @@ echo "======================"
 # encrypt files list
 cd ${ARCH_DIR}
 log "PWD: `pwd`"
-ARCH_LST=$(find -iregex ".*\.\(zip\|tar\.gz\)")
+ARCH_LST=$(find -iregex ".*\.\(z[0-9]+\|zip\|tar\.gz\)")
 log $'Found archives:\n'"$ARCH_LST"
 
 
