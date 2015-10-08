@@ -34,7 +34,7 @@ function setup() {
 
     # path to output decrypted file
     while [[ -z "$PATH_TO_OUT" ]] || [[ -f ${PATH_TO_OUT} ]]; do
-        read -e -p "Output file path: " PATH_TO_OUT
+        read -e -p "Output file path with file name: " PATH_TO_OUT
         if [[ -f ${PATH_TO_OUT} ]]; then echo "File: $PATH_TO_OUT already exists."; fi
     done
     echo "---"
@@ -59,7 +59,7 @@ function setup() {
 
 
     echo "=================================="
-    printf "File to decrypt. Path is:\t\t%s\n" ${PATH_TO_ARCH}
+    printf "File to decrypt:\t\t%s\n" ${PATH_TO_ARCH}
     printf "Enc'ted file name:\t%s\n" ${FILE_NAME_ENC}
     printf "File name is:\t\t%s\n" ${FILE_NAME}
     printf "Output file is:\t\t%s\n" ${PATH_TO_OUT}
