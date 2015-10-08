@@ -1,4 +1,5 @@
-#! /bin/bash
+#!/usr/bin/env bash
+
 # Decrypting archive with private cert and archive key.
 #
 # 0. Ask for archive location.
