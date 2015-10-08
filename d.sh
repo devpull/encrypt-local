@@ -23,7 +23,7 @@ function setup() {
     # enc'ted file location
     while [[ ! -f "$PATH_TO_ARCH" ]]; do
         if [[ ! -f "$PATH_TO_ARCH" ]] && [[ ! -z "$PATH_TO_ARCH" ]]; then echo "$PATH_TO_ARCH is not a file."; fi
-        read -e -p "Absolute path to archive: " PATH_TO_ARCH
+        read -e -p "Absolute path to archive for decryption: " PATH_TO_ARCH
     done
     echo "---"
 
@@ -59,7 +59,7 @@ function setup() {
 
 
     echo "=================================="
-    printf "File path is:\t\t%s\n" ${PATH_TO_ARCH}
+    printf "File to decrypt. Path is:\t\t%s\n" ${PATH_TO_ARCH}
     printf "Enc'ted file name:\t%s\n" ${FILE_NAME_ENC}
     printf "File name is:\t\t%s\n" ${FILE_NAME}
     printf "Output file is:\t\t%s\n" ${PATH_TO_OUT}
@@ -80,7 +80,7 @@ function decrypt() {
 
     # decrypting file with decrypted aes key
     echo "Decrypting file with aes key..."
-    openssl enc -d -aes-256-cbc -in ${FILE_NAME_ENC} -out ${PATH_TO_OUT} -pass file:${FILE_NAME}.key
+    openssl enc -d -aes-256-cbc -in ${PATH_TO_ARCH} -out ${PATH_TO_OUT} -pass file:${FILE_NAME}.key
 
     # removing decrypted aes key
     echo "Removing decrypted aes key..."
